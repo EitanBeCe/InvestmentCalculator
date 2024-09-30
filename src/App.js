@@ -6,8 +6,10 @@ import Table from './components/Table.js';
 function App() {
   const [userInputResult, setUserInputResult] = useState(null)
 
+  const yearlyData = []; // per-year results
   const calculateHandler = userInput => {
-    const yearlyData = []; // per-year results
+    setUserInputResult(userInput)
+    
 
     let currentSavings = +userInput['current-savings'];
     const yearlyContribution = +userInput['yearly-contribution'];
@@ -19,7 +21,7 @@ function App() {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
       yearlyData.push({
-        id: Math.random(),
+        // id: Math.random(),
         year: i + 1,
         yearlyInterest: yearlyInterest,
         savingsEndOfYear: currentSavings,
@@ -39,10 +41,7 @@ function App() {
 
       <Form calculateHandler={calculateHandler} />
 
-      {/* Todo: Show below table conditionally (only once result data is available) */}
-      {/* Show fallback text if no data is available */}
-
-      <Table userInputResult={userInputResult} />
+      <Table userInputResult={yearlyData} initialInvesment={userInputResult['current-savings']} />
     </div>
   );
 }

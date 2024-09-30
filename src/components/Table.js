@@ -1,5 +1,23 @@
 const Table = props => {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
+    let tableContent = <p style={{textAlign: 'center'}}>"No results"</p>
+    if (props.userInputResult) {
+        tableContent = props.userInputResult.map(result => {
+            return <tr key={result.year}>
+                <td>{result.year}</td>
+                <td>{formatter.format(result.savingsEndOfYear)}</td>
+                <td>{formatter.format(result.yearlyInterest)}</td>
+                <td>{formatter.format(result.savingsEndOfYear - props.initialInvesment - result.yearlyContribution * result.year)}</td>
+                <td>{formatter.format(props.initialInvesment + result.yearlyContribution * result.year)}</td>
+            </tr>
+        })
+    }
 
     return <table className="result">
         <thead>
@@ -11,14 +29,9 @@ const Table = props => {
                 <th>Invested Capital</th>
             </tr>
         </thead>
+
         <tbody>
-            <tr>
-                <td>YEAR NUMBER</td>
-                <td>TOTAL SAVINGS END OF YEAR</td>
-                <td>INTEREST GAINED IN YEAR</td>
-                <td>TOTAL INTEREST GAINED</td>
-                <td>TOTAL INVESTED CAPITAL</td>
-            </tr>
+            {tableContent}
         </tbody>
     </table>
 }
