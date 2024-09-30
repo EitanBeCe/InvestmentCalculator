@@ -14,7 +14,7 @@ const Form = props => {
         setInput(prevState => {
             return {
                 ...prevState,
-                [inputName]: value
+                [inputName]: +value
             }
         })
     }
